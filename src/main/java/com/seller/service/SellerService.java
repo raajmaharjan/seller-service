@@ -16,15 +16,15 @@ import com.seller.repositories.SellerRepository;
 
 @Service
 public class SellerService {
-	
+
 	@Autowired
 	private SellerRepository sellerRepository;
-	
+
 	@Autowired
 	private ProductClient productClient;
-	
+
 	public void saveSeller(SellerDto sellerDto) {
-		
+
 		SellerEntity seller = new SellerEntity();
 		seller.setName(sellerDto.getName());
 		seller.setActive(true);
@@ -32,26 +32,43 @@ public class SellerService {
 		seller.setPhone(sellerDto.getPhone());
 		seller.setEmail(sellerDto.getEmail());
 		seller.setUid(UUID.randomUUID().toString());
-		
+
 		SellerLoginEntity login = new SellerLoginEntity();
 		login.setUserName(sellerDto.getUserId());
 		login.setPassword(sellerDto.getPassword());
 		login.setSeller(seller);
-		
+
 //		seller.setSellerLogin(login);
-		
+
 		sellerRepository.save(seller);
-		
+
 	}
-	
+
 	public void saveProduct(String sellerId, ProductDto product) throws Exception {
 		SellerEntity sller = sellerRepository.findByUid(sellerId);
-		if(sller != null) {
+		if (sller != null) {
 			product.setSellerUid(sller.getUid());
 			productClient.saveProduct(product);
 		} else {
 			throw new Exception("Seller doesnt exist");
 		}
+	}
+
+	public SellerDto getByUid(String sellerUid) {
+
+		SellerEntity seller = sellerRepository.findByUid(sellerUid);
+		if(seller != null) {
+			SellerDto sellerDto = new SellerDto();
+			sellerDto.setName(seller.getName());
+			sellerDto.setEmail(seller.getEmail());
+			sellerDto.setCountryCode(seller.getCountryCode());
+			sellerDto.setPhone(seller.getPhone());
+			sellerDto.setActive(seller.getActive());
+			return sellerDto;
+		} else {
+			return null;
+		}
+
 	}
 
 }

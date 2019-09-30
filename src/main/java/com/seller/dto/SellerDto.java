@@ -9,6 +9,7 @@ public class SellerDto {
 
 	private String userId;
 	private String password;
+	private Boolean active;
 
 	public String getName() {
 		return name;
@@ -56,6 +57,14 @@ public class SellerDto {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 }

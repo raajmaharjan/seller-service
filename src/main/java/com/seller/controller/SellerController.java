@@ -22,6 +22,11 @@ public class SellerController {
 	public void createSeller(@RequestBody SellerDto sellerDto) {
 		sellerService.saveSeller(sellerDto);
 	}
+	
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public SellerDto getSellerInfo(@RequestParam String uid) {
+		return sellerService.getB yUid(uid);
+	}
 
 	@RequestMapping(value = "/product", method = RequestMethod.POST)
 	public void addProduct(@RequestParam String sellerId, @RequestBody ProductDto productDto) throws Exception {
